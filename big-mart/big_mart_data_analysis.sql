@@ -139,3 +139,20 @@ FROM aggregate_data
 
 select * from RankedSales
 where sales_rank <= 5;
+
+
+--- RANK TOTAL SALES BY ITEM
+with AGGEGRATE_ITEM_RANK AS (
+select 
+  Item_Type,
+  sum(item_outlet_sales) as total_sales
+from 
+	Train
+group by 
+	item_type
+)
+select 
+	Item_type,
+	total_sales,
+	RANK() OVER(Order by total_sales DESC) as rank_by_item
+from AGGEGRATE_ITEM_RANK;
