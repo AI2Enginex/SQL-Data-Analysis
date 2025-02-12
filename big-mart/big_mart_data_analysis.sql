@@ -9,6 +9,14 @@ from
 where
     table_name = 'Train' and IS_NULLABLE = 'YES';
 
+---- removing the null values
+update train
+set Item_Weight = COALESCE(Item_Weight,120.25);
+
+update train
+set Outlet_Size = COALESCE(Outlet_Size,'Other');
+
+
 --- selecting the column names from the table
 select 
     column_name 
