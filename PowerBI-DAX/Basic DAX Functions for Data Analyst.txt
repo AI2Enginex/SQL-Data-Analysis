@@ -1,0 +1,143 @@
+-- Basic DAX Functions for Data Analysts and Business Analysts
+
+-- SUM Function
+-- This calculates the total sum of a column.
+Total Sales = SUM(SalesData[Sales Amount])
+
+-- AVERAGE Function
+-- This calculates the average value of a column.
+Average Sales = AVERAGE(SalesData[Sales Amount])
+
+-- COUNT Function
+-- This counts the number of rows in a column.
+Total Transactions = COUNT(SalesData[Transaction ID])
+
+-- DISTINCTCOUNT Function
+-- This counts the number of unique values in a column.
+Unique Customers = DISTINCTCOUNT(SalesData[Customer ID])
+
+-- MAX Function
+-- This returns the maximum value in a column.
+Highest Sale = MAX(SalesData[Sales Amount])
+
+-- MIN Function
+-- This returns the minimum value in a column.
+Lowest Sale = MIN(SalesData[Sales Amount])
+
+-- IF Function
+-- This creates a conditional logic statement.
+High Value Sale = IF(SalesData[Sales Amount] > 1000, "High", "Normal")
+
+-- SWITCH Function
+-- This works like a case statement in SQL, useful for multiple conditions.
+Sales Category = SWITCH(TRUE(),
+    SalesData[Sales Amount] > 5000, "Premium",
+    SalesData[Sales Amount] > 1000, "Standard",
+    "Basic"
+)
+
+-- CONCATENATE Function
+-- This combines two text columns into one.
+Full Name = CONCATENATE(SalesData[First Name], " ", SalesData[Last Name])
+
+-- FORMAT Function
+-- This formats numbers or dates into a specific display format.
+Formatted Sales = FORMAT(SalesData[Sales Amount], "Currency")
+
+-- RELATED Function
+-- This fetches data from a related table (like a SQL JOIN).
+Customer Region = RELATED(CustomerTable[Region])
+
+-- LOOKUPVALUE Function
+-- This searches for a specific value in another table.
+Customer Segment = LOOKUPVALUE(CustomerTable[Segment], CustomerTable[Customer ID], SalesData[Customer ID])
+
+-- ADDCOLUMNS Function
+-- This adds a new calculated column to a table.
+Sales with Tax = ADDCOLUMNS(SalesData, "Total With Tax", SalesData[Sales Amount] * 1.05)
+
+-- SUMX Function
+-- This calculates the sum of an expression over a table.
+Total Sales With Tax = SUMX(SalesData, SalesData[Sales Amount] * 1.05)
+
+-- AVERAGEX Function
+-- This calculates the average of an expression over a table.
+Average Discounted Sales = AVERAGEX(SalesData, SalesData[Sales Amount] * (1 - SalesData[Discount]))
+
+-- COUNTROWS Function
+-- This counts the number of rows in a table.
+Total Orders = COUNTROWS(SalesData)
+
+-- FILTER Function
+-- This returns a subset of a table based on a condition.
+High Value Sales = FILTER(SalesData, SalesData[Sales Amount] > 5000)
+
+-- CALCULATE Function
+-- This modifies a calculation by applying filters.
+Sales in 2024 = CALCULATE(SUM(SalesData[Sales Amount]), SalesData[Year] = 2024)
+
+-- ALL Function
+-- This removes filters from a column or table.
+Total Sales (Ignoring Filters) = CALCULATE(SUM(SalesData[Sales Amount]), ALL(SalesData))
+
+-- ALLEXCEPT Function
+-- This removes all filters except the specified columns.
+Total Sales Per Category = CALCULATE(SUM(SalesData[Sales Amount]), ALLEXCEPT(SalesData, SalesData[Category]))
+
+-- RANKX Function
+-- This ranks items in a table based on a value.
+Sales Rank = RANKX(ALL(SalesData), SUM(SalesData[Sales Amount]))
+
+-- DIVIDE Function
+-- This performs safe division to avoid errors.
+Profit Margin = DIVIDE(SUM(SalesData[Profit]), SUM(SalesData[Sales Amount]), 0)
+
+-- ISBLANK Function
+-- This checks if a value is blank.
+Missing Values = IF(ISBLANK(SalesData[Sales Amount]), "No Data", SalesData[Sales Amount])
+
+-- CONTAINS Function
+-- This checks if a value exists in a table.
+Customer Exists = CONTAINS(CustomerTable, CustomerTable[Customer ID], SalesData[Customer ID])
+
+-- LEN Function
+-- This returns the length of a text string.
+Customer ID Length = LEN(SalesData[Customer ID])
+
+-- SUBSTITUTE Function
+-- This replaces occurrences of a text within a string.
+Normalized Category = SUBSTITUTE(SalesData[Category], "Electronics", "Gadgets")
+
+-- LEFT, MID, RIGHT Functions
+-- These extract substrings from a text value.
+First Letter of Category = LEFT(SalesData[Category], 1)
+Middle Part of Code = MID(SalesData[Product Code], 2, 3)
+Last 4 Digits of ID = RIGHT(SalesData[Customer ID], 4)
+
+-- SEARCH Function
+-- This finds the position of a substring inside a text.
+Position of "Pro" = SEARCH("Pro", SalesData[Product Name], 1, 0)
+
+-- NOW and TODAY Functions
+-- These return the current datetime and date.
+Current Date = TODAY()
+Current DateTime = NOW()
+
+-- EOMONTH Function
+-- This returns the last day of a month from a given date.
+Month End Date = EOMONTH(SalesData[Date], 0)
+
+-- YEAR, MONTH, DAY Functions
+-- These extract parts of a date.
+Sale Year = YEAR(SalesData[Date])
+Sale Month = MONTH(SalesData[Date])
+Sale Day = DAY(SalesData[Date])
+
+-- DATEDIFF Function
+-- This calculates the difference between two dates.
+Days Between Order and Delivery = DATEDIFF(SalesData[Order Date], SalesData[Delivery Date], DAY)
+
+-- Basic Mathematical Operations
+-- These perform basic calculations.
+Total Cost = SalesData[Quantity] * SalesData[Unit Price]
+Discounted Price = SalesData[Sales Amount] * (1 - SalesData[Discount])
