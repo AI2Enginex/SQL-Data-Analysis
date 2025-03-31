@@ -1,0 +1,116 @@
+-- Pharmaceutical Sales Data Analysis - DAX Calculated Fields
+
+1️⃣ Sales & Revenue Metrics
+
+Total Sales
+
+-- Calculates the total revenue from sales transactions.
+Total Sales = SUM(SalesData[Sales Amount])
+
+Sales Growth (%)
+
+-- Computes the Year-over-Year (YoY) sales growth.
+Sales Growth % =
+DIVIDE(
+[Total Sales] - CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
+CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
+0
+)
+
+Average Selling Price (ASP)
+
+-- Determines the average price per unit sold.
+Average Selling Price = DIVIDE([Total Sales], SUM(SalesData[Units Sold]), 0)
+
+Market Share (%)
+
+-- Calculates the percentage of total market sales owned by the company.
+Market Share % =
+DIVIDE([Total Sales], SUM(MarketData[Total Industry Sales]), 0) * 100
+
+2️⃣ Product & SKU Performance
+
+Top Performing Drug (Ranking)
+
+-- Assigns rank to drugs based on sales volume.
+Drug Sales Rank =
+RANKX(ALL(SalesData[Drug Name]), [Total Sales], , DESC, DENSE)
+
+Sales Contribution by Drug Category (%)
+
+-- Computes the percentage contribution of a drug category to total sales.
+Sales by Category % =
+DIVIDE([Total Sales], CALCULATE([Total Sales], ALL(SalesData)), 0) * 100
+
+SKU-Level Profitability
+
+-- Calculates profit per SKU (if cost data is available).
+Profit per SKU = SUM(SalesData[Sales Amount]) - SUM(SalesData[Cost Amount])
+
+3️⃣ Territory & Sales Rep Performance
+
+Sales per Region
+
+-- Calculates total sales grouped by region.
+Sales by Region = CALCULATE([Total Sales], ALLEXCEPT(SalesData, SalesData[Region]))
+
+Sales per Sales Rep
+
+-- Computes total sales per sales representative.
+Sales by Rep = CALCULATE([Total Sales], ALLEXCEPT(SalesData, SalesData[Sales Rep]))
+
+Doctor Engagement Rate
+
+-- Determines how frequently sales reps engage with doctors.
+Engagement Rate = DIVIDE(COUNT(SalesData[Doctor Visits]), COUNT(SalesData[Sales Rep]), 0)
+
+4️⃣ Prescription & Patient Trends
+
+Total Prescriptions Count
+
+-- Counts the total number of prescriptions issued.
+Total Prescriptions = COUNT(SalesData[Prescription ID])
+
+New vs. Returning Patients
+
+-- Determines the number of new patients prescribed a drug.
+New Patients = DISTINCTCOUNT(FILTER(SalesData, SalesData[IsNewPatient] = "Yes"))
+
+Prescription Abandonment Rate (%)
+
+-- Calculates the percentage of prescriptions not picked up by patients.
+Abandonment Rate =
+DIVIDE(COUNT(SalesData[Abandoned Prescriptions]), COUNT(SalesData[Total Prescriptions]), 0) * 100
+
+5️⃣ Inventory & Stock Management
+
+Stock Turnover Rate
+
+-- Measures how often stock is sold and replaced.
+Stock Turnover =
+DIVIDE(SUM(SalesData[Units Sold]), SUM(SalesData[Stock Available]), 0)
+
+Days of Inventory on Hand
+
+-- Determines how many days the inventory will last.
+Inventory Days =
+DIVIDE(SUM(SalesData[Stock Available]), AVERAGE(SalesData[Daily Sales]), 0)
+
+Stockout Risk Indicator
+
+-- Flags when stock levels are low.
+Stock Risk Flag = IF(SalesData[Stock Available] < SalesData[Reorder Level], "Low Stock", "Sufficient")
+
+6️⃣ Compliance & Regulatory Metrics
+
+Controlled Drug Sales %
+
+-- Calculates the percentage of sales from regulated drugs.
+Controlled Drug Sales % =
+DIVIDE(SUMX(FILTER(SalesData, SalesData[Drug Type] = "Controlled"), SalesData[Sales Amount]), [Total Sales], 0) * 100
+
+Adverse Event Reporting Rate (%)
+
+-- Computes the percentage of prescriptions resulting in reported adverse events.
+Adverse Event Rate =
+DIVIDE(COUNT(SalesData[Adverse Event Reports]), COUNT(SalesData[Total Prescriptions]), 0) * 100
