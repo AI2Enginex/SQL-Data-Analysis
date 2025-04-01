@@ -144,7 +144,6 @@ Discounted Price = SalesData[Sales Amount] * (1 - SalesData[Discount])
 
 -- SUMMARIZE Function
 -- Used for Data Aggegration
-Sales Summary = SUMMARIZE(SalesData, DateTable[Date].[Year], DateTable[Date].[Month], "Total Sales", SUM(SalesData[Sales Amount]))
 
 Yearly Sales Summary = 
 SUMMARIZE(
