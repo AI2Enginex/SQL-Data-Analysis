@@ -155,8 +155,9 @@ SUMMARIZE(
 
 Monthly Sales Summary = 
 SUMMARIZE(
-    SalesData, 
-    ADDCOLUMNS(SalesData, "Month Start Date", DATE(YEAR(DateTable[Date]), MONTH(DateTable[Date]), 1)), 
-    "Total Sales", SUM(SalesData[Sales Amount])
+    'Sales Data', 
+    'Sales Data'[SalesDate], 
+    "Month Start Date", DATE(YEAR('Sales Data'[SalesDate]), MONTH('Sales Data'[SalesDate]), 1),
+    "Total Sales", SUM('Sales Data'[Sales Amount])
 )
 
