@@ -7,14 +7,17 @@ Total Sales
 -- Calculates the total revenue from sales transactions.
 Total Sales = SUM(SalesData[Sales Amount])
 
+-- Calculates the total revenue from sales transactions year-to-date.
+YTD Sales = TOTALYTD(SUM(SalesData[Sales Amount]), DateTable[Date])
+
 Sales Growth (%)
 
 -- Computes the Year-over-Year (YoY) sales growth.
 Sales Growth % =
 DIVIDE(
-[Total Sales] - CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
-CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
-0
+    [YTD Sales] - CALCULATE([YTD Sales], PREVIOUSYEAR(DateTable[Date])),
+    CALCULATE([YTD Sales], PREVIOUSYEAR(DateTable[Date])),
+    0
 )
 
 Average Selling Price (ASP)
