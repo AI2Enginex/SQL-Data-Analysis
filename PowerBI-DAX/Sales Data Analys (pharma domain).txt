@@ -15,8 +15,8 @@ Sales Growth (%)
 -- Computes the Year-over-Year (YoY) sales growth.
 Sales Growth % =
 DIVIDE(
-    [YTD Sales] - CALCULATE([YTD Sales], PREVIOUSYEAR(DateTable[Date])),
-    CALCULATE([YTD Sales], PREVIOUSYEAR(DateTable[Date])),
+    [YTD Sales] - CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
+    CALCULATE([Total Sales], PREVIOUSYEAR(DateTable[Date])),
     0
 )
 
