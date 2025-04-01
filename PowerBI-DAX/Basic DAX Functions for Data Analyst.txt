@@ -141,3 +141,9 @@ Days Between Order and Delivery = DATEDIFF(SalesData[Order Date], SalesData[Deli
 -- These perform basic calculations.
 Total Cost = SalesData[Quantity] * SalesData[Unit Price]
 Discounted Price = SalesData[Sales Amount] * (1 - SalesData[Discount])
+
+-- SUMMARIZE Function
+-- Used for Data Aggegration
+Sales Summary = SUMMARIZE(SalesData, DateTable[Date].[Year], DateTable[Date].[Month], "Total Sales", SUM(SalesData[Sales Amount]))
+
+Yearly Sales Summary = SUMMARIZE(SalesData, DateTable[Date].[Year], "Total Sales", SUM(SalesData[Sales Amount]))
