@@ -261,3 +261,16 @@ SELECT
     total_sales,
     FIRST_VALUE(item_type) OVER (PARTITION BY outlet_establishment_year ORDER BY total_sales ASC) AS most_sold_item
 FROM FirstValueDataQuery;
+
+
+---- Remove duplicates using 'ROW_NUMBER()' 
+WITH CTE AS (
+    SELECT *, ROW_NUMBER() OVER (
+        PARTITION BY Outlet_Identifier 
+        ORDER BY Item_Type
+    ) AS rn
+    FROM Train_data
+)DELETE FROM CTE
+WHERE rn > 1;
+
+select * from Train_data;
