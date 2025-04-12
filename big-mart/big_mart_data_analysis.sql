@@ -264,6 +264,7 @@ FROM FirstValueDataQuery;
 
 
 ---- Remove duplicates using 'ROW_NUMBER()' 
+
 WITH CTE AS (
     SELECT *, ROW_NUMBER() OVER (
         PARTITION BY Outlet_Identifier 
@@ -273,4 +274,4 @@ WITH CTE AS (
 )DELETE FROM CTE
 WHERE rn > 1;
 
-select * from Train_data;
+select * from Train;
